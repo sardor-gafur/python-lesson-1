@@ -21,3 +21,12 @@ srtip( hamma bosh joni )
 lstrip( faqat chap tamoni boshligini        )
 rstrip(           o'ng tarafni bo'shligini kesib yoqotadi. )
 split() ham bor u sozlar orasini vergul bn ajratadi va space beradi.
+If = bir bu agar sharti bolib shunday bolsa shubday bolsin degan 
+else = ifning qarindoshi desak ham bolaveradi aks holda yani if ga zid bolgan holatda degani 
+elif = yoki desak ham boladi
+if shart1:
+    # shart1 rost bo'lsa
+elif shart2:
+    # shart1 yolg'on, shart2 rost bo'lsa
+else:
+    # yuqoridagi hech biri rost bo'lmasa
