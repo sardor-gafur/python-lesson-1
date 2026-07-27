@@ -1,0 +1,22 @@
+# ikkinchi darsimizda nimalarni yozdadim va o'zlashtirdim: while = toki, pop - sugirib olish odatda +\
+# listdan indeksiz ishlatilsa listni oxiridan kesadi va append() qoshish listni oxiriga qo'shadi.
+son = 1 
+while son < 50:
+    son = son + 1
+    print (son )
+print ("o'xshadi aa")
+
+# list.append(sth) = odatda lisni oxiriga malumot qoshishda ishlatiladi.
+cars = ['bmw', 'mers', 'bus', 'ford']
+cars.append('bike')
+print (cars)
+
+fruits = ["apple", "apricot", "banana", "cherry"]
+fruits.append("date")
+print(fruits)
+# pop() bu index bilan sugirb olsa yoki oxirgi datani  malumotni sugirib olish uchun 
+phones = ['apple', 'samsung', 'vivo', 'oppo']
+phones.pop('vivo')
+#pop()  bu nksiyamiz listni oxirgi malumotini yoki idexlanga malumotni  sugirb olsa
+# remove qiymatimizni oladi yani listda 3 ta car bolsa remove.(car) qilish orqli listdagi
+#carlar sonini 2 ta ga tushiramz.
