@@ -1,0 +1,46 @@
+#def orqali biz funksiyalarni yatatamiz qutdagi code da rage funksiyasini korsihingiz mumkin.
+def sana(min, max):
+    sonlar = []
+    while min < max:
+        sonlar.append(min)
+        min += 1
+    return sonlar
+print(sana(2,534))
+
+
+
+print(sana(1,23))
+
+print ("sonlar", sana(1,23))q
+def sana(min, max, step=10):
+    sonlar = []
+    while min < max:
+        sonlar.append(min)
+        min += step
+    return sonlar
+#print(sana(2,534))
+
+
+
+#print(sana(1,23))
+
+#print ("sonlar", sana(1,23))
+print(sana(0, 100, step=10)) 
+phone_info = []
+phone_model = input("What is your phone model? ")
+phone_color = input("what is your phone color?")
+
+phone_info.append(phone_model)
+phone_info.append(phone_color)
+
+while True:
+    # .strip().lower() - ortiqcha bo'sh joylarni olib tashlaydi va kichik harfga o'tkazadi
+    answer = input("Can your phone work in water? (yes/no): ").strip().lower()
+    
+    if answer in ["yes", "no", "ha", "yo'q", "yoq"]:
+        break  # Javob to'g'ri bo'lsa, sikldan chiqadi
+    else:
+        print("Iltimos, faqat 'yes' yoki 'no' deb javob bering!\n")
+
+print(phone_info)
+print(answer)
