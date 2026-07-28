@@ -1,0 +1,14 @@
+def salom_ber(): # type: ignore
+    print("Salom!")
+
+natija = salom_ber()
+print("Natija o'zgaruvchisi:", natija)
+
+def salom_ber():
+    return "Salom!"
+
+natija = salom_ber()
+print("Natija o'zgaruvchisi:", natija)
+
+# return funksiyasi qiymatni olib qoladi ozid (xotirada) saqlaydi keyinchalik ham qiymatni ishlata olamza.
+
