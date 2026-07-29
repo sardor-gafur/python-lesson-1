@@ -1,0 +1,32 @@
+def baxola(ismlar):
+    baxolar = {}
+
+    while ismlar:
+        ism = ismlar.pop()
+        baxo = input(f"{ism}ning bahosini kiriting: ")
+        baxolar[ism] = int(baxo)
+
+    return baxolar
+
+
+talabalar = ["Ali", "Vali", "Hasan"] 
+
+baxolar = baxola(talabalar)
+print(baxolar)
+
+birinchi, *qolganlari, oxirgi = [10, 20, 30, 40, 50] 
+
+print(birinchi)     #                   10  
+print(qolganlari)   #                   [20, 30, 40]  
+print(oxirgi)       #                   50  
+
+# **(keywords arguments) bu cheklanmmaga miqdorda funksiay uchun joy dab atasak ham bolavetadi 
+#limitlanmagan joy hohlagancha malulot lugat va qiymat qoshish mumkin hatto qohsmaslik ham.
+# ** lugatlarni birlashtirishi ham mumkin (comin)
+# * bu odatda malumotni  TUPLE ga ozgartiradi, aralash royhat uchun ham qulay;
+birinchi, *qolganlari, oxirgi = [10, 20, 30, 40, 50] 
+
+print(birinchi)     #                   10  
+print(qolganlari)   #                   [20, 30, 40]  
+print(oxirgi)       #                   50  
+
