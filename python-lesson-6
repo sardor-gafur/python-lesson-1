@@ -1,0 +1,86 @@
+sonlar = ["1", "2", "3", "4"]
+
+yangi = list(map(int, sonlar))
+
+print(yangi)
+sonlar = [1, 2, 3, 4]
+
+kvadrat = list(map(lambda x: x * x, sonlar))
+
+print(kvadrat)
+
+
+
+def talaba_baholari():
+    talabalar = []
+    baxolar = {}
+
+    son = int(input("Nechta talaba kiritasiz? "))
+
+    for i in range(son):
+        ism = input(f"{i+1}-talabaning ismini kiriting: ")
+        talabalar.append(ism)
+
+    print("\nEndi baholarni kiriting.\n")
+
+    while talabalar:
+        ism = talabalar.pop()
+        baho = int(input(f"{ism}ning bahosini kiriting: "))
+        baxolar[ism] = baho
+
+    return baxolar
+
+
+natija = talaba_baholari()
+
+print("\nNatijalar:")
+for ism, baho in natija.items():
+    print(f"{ism} -> {baho}")
+
+
+sonlar = ["1", "2", "3", "4"]
+
+yangi = list(map(int, sonlar))
+
+print(yangi)
+sonlar = [1, 2, 3, 4]
+
+kvadrat = list(map(lambda x: x * x, sonlar))
+
+print(kvadrat)
+
+
+
+def talaba_baholari():
+    talabalar = []
+    baxolar = {}
+
+    son = int(input("Nechta talaba kiritasiz? "))
+
+    for i in range(son):
+        ism = input(f"{i+1}-talabaning ismini kiriting: ")
+        talabalar.append(ism)
+
+    print("\nEndi baholarni kiriting.\n")
+
+    while talabalar:
+        ism = talabalar.pop()
+        baho = int(input(f"{ism}ning bahosini kiriting: "))
+        baxolar[ism] = baho
+
+    return baxolar
+
+
+natija = talaba_baholari()
+
+print("\nNatijalar:")
+for ism, baho in natija.items():
+    print(f"{ism} -> {baho}")
+
+
+
+
+
+
+
+
