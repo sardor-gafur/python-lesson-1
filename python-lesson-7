@@ -1,0 +1,134 @@
+# random funksiyasi bu siz belgilagan malum bir sonlar oralidan siz uchun tasodifiy sonni yoki tasodifiy elementni chiqazadi.
+# randint kopincha ishlatiladi aslida u rand= random  int- intijet
+
+import random
+
+# Kompyuter 1 dan 100 gacha son o'ylaydi
+sirli_son = random.randint(1, 100)
+
+urinishlar = 0
+
+print("=== SON TOPISH O'YINI ===")
+print("Men 1 dan 100 gacha son o'yladim.")
+print("Uni topishga harakat qiling!")
+
+while True:
+    taxmin = int(input("Son kiriting: "))
+    urinishlar += 1
+
+    if taxmin < sirli_son:
+        print("Juda kichik son kiritdingiz!")
+    elif taxmin > sirli_son:
+        print("Juda katta son kiritdingiz!")
+    else:
+        print("🎉 Tabriklayman!")
+        print(f"Sirli son: {sirli_son}")
+        print(f"Siz {urinishlar} ta urinishda topdingiz.")
+        break
+
+
+# shuffle() funksiyamzi mix qilib yani aralashtirib beruvchi funksiya quyidagi kodlar orqali tushinib olishingiz mumkin.
+import random
+
+savollar = [
+    "1. Python kim tomonidan yaratilgan?",
+    "2. List nima?",
+    "3. Tuple nima?",
+    "4. Dictionary nima?",
+    "5. While sikli nima qiladi?",
+    "6. For sikli nima qiladi?",
+    "7. Function nima?",
+    "8. Class nima?"
+]
+
+print("=== Aralashtirishdan oldin ===")
+for savol in savollar:
+    print(savol)
+
+random.shuffle(savollar)
+
+print("\n=== Aralashtirilgandan keyin ===")
+for savol in savollar:
+    print(savol)
+
+
+
+
+
+import random
+
+talabalar = [
+    "Ali", "Vali", "Hasan", "Husan",
+    "Aziz", "Bekzod", "Dilshod", "Jasur"
+]
+
+random.shuffle(talabalar)
+
+print("1-guruh:")
+for ism in talabalar[:4]:
+    print("-", ism)
+
+print("\n2-guruh:")
+for ism in talabalar[4:]:
+    print("-", ism)
+
+
+
+
+
+
+
+
+import random as rd
+
+ismlar = [
+    "Ali",
+    "Vali",
+    "Hasan",
+    "Husan",
+    "Sardor"
+]
+
+rd.shuffle(ismlar)
+
+print("Tasodifiy tartib:")
+
+for ism in ismlar:
+    print(ism)
+
+golib = rd.choice(ismlar)
+
+print("\nBugungi g'olib:", golib)
+
+son = rd.randint(100, 999)
+
+print("Maxfiy kod:", son)
+
+
+
+#choice() belgilangan lugatdan bittasini tanlaydi randint a nuqtadan b gacha bolgan sonlani shakllantiradi..
+
+import random as rd
+
+ismlar = [
+    "Ali",
+    "Vali",
+    "Hasan",
+    "Husan",
+    "Sardor"
+]
+
+rd.shuffle(ismlar)
+
+print("Tasodifiy tartib:")
+
+for ism in ismlar:
+    print(ism)
+
+golib = rd.choice(ismlar)
+
+print("\nBugungi g'olib:", golib)
+
+son = rd.randint(100, 999)
+
+print("Maxfiy kod:", son)
