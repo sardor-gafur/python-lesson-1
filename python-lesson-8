@@ -1,0 +1,66 @@
+# oyin yaratishimiz kerak son top oyinini
+# asosiy funksiylari:
+# oyin oynaymizmsoraydii
+# ha/yoq
+#son oylang
+# oyoadim
+# ramdom sonlar
+#urinishla sono
+# katta + kichik- togri t
+#endi men sen oylasan 
+#  taxminla
+# katta + kichik- togri t
+# tabriklayman t
+javob =input('son topish oyin oynaymizmi? (ha/yoq_')
+if javob == 'yoq':
+    raise SystemExit
+else:
+    print ('1 dan 10 gacha taxminiy son oylang va kiriting\n')
+import random
+res = random.randint(1,11)
+urinish = 0 
+
+son = int(input('siz oylagan son?'))
+if res == son :
+    print (f"ajoyib siz topdingiz" )
+elif res < son :
+    int(input('siz oylagandan katta' ))
+    urinish += 1
+elif res > son:
+    int(input("kichikroq son kiriting  "))
+    urinish += 1
+
+
+import random
+
+hohlaysizmi = input('do you want to play a game (yes/no) ')
+
+
+if hohlaysizmi == 'no' :
+    raise SystemExit
+else:
+    print ('davom etamiza') 
+    
+son = random.randint(1,10)
+
+
+def sontop():
+    taxmin = int(input ('1 dan 10 gacha bir son oyladim u nechi?:'))
+    urnsh = 1
+     
+    
+    while taxmin != son :
+        if son < taxmin:
+            taxmin = int(input ('kichikroq son kiriting '))
+            urnsh += 1
+        elif taxmin < son:
+            taxmin = int(input('kattaroq son kiriting'))
+            urnsh += 1
+    return urnsh
+
+urnsh = sontop()     
+
+print (f"ajoyib {son}ni togri topdingiz galabaa")
+print (f"urinshlar soni  {urnsh}ta.")
+     
+    
