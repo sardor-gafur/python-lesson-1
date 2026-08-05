@@ -1,0 +1,230 @@
+from datetime import datetime
+import json
+import logging
+import os
+import sqlite3
+
+# --- 1. LOGGING (XATOLAR VA AMALLARNI YOZIB BORISH) CONFIGURATSIYASI ---
+logging.basicConfig(
+    filename="store.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    encoding="utf-8",
+)
+
+
+# --- 2. MA'LUMOTLAR BAZASI BILAN ISHLASH KLASSI ---
+class DatabaseManager:
+
+    def __init__(self, db_name="store.db"):
+        self.db_name = db_name
+        self.init_db()
+
+    def get_connection(self):
+        return sqlite3.connect(self.db_name)
+
+    def init_db(self):
+        """Jadvallarni yaratish (agar mavjud bo'lmasa)"""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+
+            # Mahsulotlar jadvali
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS products (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    nom TEXT NOT NULL,
+                    narx REAL NOT NULL,
+                    miqdor INTEGER NOT NULL
+                )
+            """
+            )
+
+            # Buyurtmalar jadvali
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS orders (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    product_id INTEGER,
+                    miqdor INTEGER,
+                    jami_summa REAL,
+                    sana TEXT,
+                    FOREIGN KEY (product_id) REFERENCES products (id)
+                )
+            """
+            )
+
+            conn.commit()
+
+
+# --- 3. MAHSULOT VA OMBOR MANTIG'I (BUSINESS LOGIC) ---
+class StoreManager:
+
+    def __init__(self, db: DatabaseManager):
+        self.db = db
+
+    def mahsulot_qo_shish(self, nom: str, narx: float, miqdor: int):
+        try:
+            with self.db.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "INSERT INTO products (nom, narx, miqdor) VALUES (?, ?, ?)",
+                    (nom, narx, miqdor),
+                )
+                conn.commit()
+                logging.info(
+                    f"Mahsulot qo'shildi: {nom} | Narx: {narx} | Miqdor: {miqdor}"
+                )
+                print(f"✅ '{nom}' omborga muvaffaqiyatli qo'shildi!")
+        except Exception as e:
+            logging.error(f"Mahsulot qo'shishda xatolik: {e}")
+            print(f"❌ Xatolik yuz berdi: {e}")
+
+    def mahsulotlarni_korish(self):
+        with self.db.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM products")
+            products = cursor.fetchall()
+
+        if not products:
+            print("\n⚠️ Omborda hech qanday mahsulot yo'q.")
+            return []
+
+        print("\n" + "=" * 60)
+        print(
+            f"{'ID':<5} | {'Mahsulot Nomi':<25} | {'Narxi ($)':<12} | {'Soni':<8}"
+        )
+        print("=" * 60)
+        for p in products:
+            print(f"{p[0]:<5} | {p[1]:<25} | {p[2]:<12.2f} | {p[3]:<8}")
+        print("=" * 60)
+        return products
+
+    def sotuv_bajarish(self, product_id: int, miqdor: int):
+        with self.db.get_connection() as conn:
+            cursor = conn.cursor()
+
+            # Ombor xatlovini tekshirish
+            cursor.execute(
+                "SELECT nom, narx, miqdor FROM products WHERE id = ?",
+                (product_id,),
+            )
+            product = cursor.fetchone()
+
+            if not product:
+                print("❌ Bunday ID ga ega mahsulot topilmadi!")
+                return
+
+            nom, narx, ombor_miqdori = product
+
+            if ombor_miqdori < miqdor:
+                print(
+                    f"⚠️ Omborda yetarli mahsulot yo'q! Mavjud: {ombor_miqdori} ta"
+                )
+                return
+
+            jami_summa = narx * miqdor
+            yangi_miqdor = ombor_miqdori - miqdor
+            sana = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+            # Bazada miqdorni ayirish va buyurtmani saqlash
+            cursor.execute(
+                "UPDATE products SET miqdor = ? WHERE id = ?",
+                (yangi_miqdor, product_id),
+            )
+            cursor.execute(
+                "INSERT INTO orders (product_id, miqdor, jami_summa, sana) VALUES (?, ?, ?, ?)",
+                (product_id, miqdor, jami_summa, sana),
+            )
+            conn.commit()
+
+            logging.info(
+                f"Sotuv: {nom} x{miqdor} = ${jami_summa} | Vaqt: {sana}"
+            )
+            print(
+                f"🎉 Sotuv amalga oshirildi! Jami: ${jami_summa:.2f} ({sana})"
+            )
+
+    def hisobotni_json_faylga_chiqarish(self):
+        """Barcha mahsulotlar va buyurtmalarni JSON faylga saqlash"""
+        with self.db.get_connection() as conn:
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT * FROM products")
+            products = [
+                {"id": r[0], "nom": r[1], "narx": r[2], "miqdor": r[3]}
+                for r in cursor.fetchall()
+            ]
+
+            cursor.execute("SELECT * FROM orders")
+            orders = [
+                {
+                    "id": r[0],
+                    "product_id": r[1],
+                    "miqdor": r[2],
+                    "summa": r[3],
+                    "sana": r[4],
+                }
+                for r in cursor.fetchall()
+            ]
+
+        data = {"products": products, "orders": orders}
+
+        filename = "store_report.json"
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+
+        print(f"📄 Hisobot '{filename}' fayliga saqlandi!")
+
+
+# --- 4. FOYDALANUVCHI INTERFEYSI (CLI) ---
+def main():
+    db = DatabaseManager()
+    store = StoreManager(db)
+
+    while True:
+        print("\n=== OMBOR VA SOTUV TIZIMI ===")
+        print("1. Yangi mahsulot qo'shish")
+        print("2. Mahsulotlar ro'yxatini ko'rish")
+        print("3. Mahsulot sotish")
+        print("4. Hisobotni JSON fayliga yuklash")
+        print("5. Chiqish")
+
+        tanlov = input("\nTanlovni kiriting (1-5): ").strip()
+
+        if tanlov == "1":
+            nom = input("Mahsulot nomi: ").strip()
+            try:
+                narx = float(input("Narxi ($): "))
+                miqdor = int(input("Soni: "))
+                store.mahsulot_qo_shish(nom, narx, miqdor)
+            except ValueError:
+                print("❌ Xatolik: Narx va miqdorga to'g'ri raqam kiriting!")
+
+        elif tanlov == "2":
+            store.mahsulotlarni_korish()
+
+        elif tanlov == "3":
+            store.mahsulotlarni_korish()
+            try:
+                p_id = int(
+                    input("Sotib olinadigan mahsulot ID sini kiriting: ")
+                )
+                miqdor = int(input("Soni: "))
+                store.sotuv_bajarish(p_id, miqdor)
+            except ValueError:
+                print("❌ Xatolik: ID va miqdor faqat butun raqam bo'lsin!")
+
+        elif tanlov == "4":
+            store.hisobotni_json_faylga_chiqarish()
+
+        elif tanlov == "5":
+            print("\nTizimdan chiqildi. Xayr!")
+            break
+
+        else:
+            print("⚠️ Noto'g'ri tanlov!")
+
+
+if __name__ == "__main__":
+    main()
