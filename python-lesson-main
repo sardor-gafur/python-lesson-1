@@ -1,0 +1,110 @@
+import sys
+
+
+class Foydalanuvchi:
+    """Foydalanuvchi obyektini yaratish klassi"""
+
+    def __init__(self, user_id: int, ism: str, email: str, yosh: int):
+        self.user_id = user_id
+        self.ism = ism
+        self.email = email
+        self.yosh = yosh
+
+    def __str__(self):
+        return f"ID: {self.user_id} | Ism: {self.ism:<15} | Email: {self.email:<25} | Yosh: {self.yosh}"
+
+
+class Tizim:
+    """Tizimni boshqarish va amallarni bajarish klassi"""
+
+    def __init__(self):
+        self.foydalanuvchilar = {}
+        self._id_counter = 1
+
+    def foydalanuvchi_qo_shish(self, ism: str, email: str, yosh: int):
+        yangi_user = Foydalanuvchi(self._id_counter, ism, email, yosh)
+        self.foydalanuvchilar[self._id_counter] = yangi_user
+        print(f"\n✅ Muvaffaqiyatli qo'shildi! (ID: {self._id_counter})")
+        self._id_counter += 1
+
+    def barcha_foydalanuvchilar(self):
+        if not self.foydalanuvchilar:
+            print("\n⚠️ Hozircha foydalanuvchilar mavjud emas.")
+            return
+
+        print("\n" + "=" * 65)
+        print("FOYDALANUVCHILAR RO'YXATI".center(65))
+        print("=" * 65)
+        for user in self.foydalanuvchilar.values():
+            print(user)
+        print("=" * 65)
+
+    def qidirish(self, ism: str):
+        topildi = [
+            u for u in self.foydalanuvchilar.values() if ism.lower() in u.ism.lower()
+        ]
+        if topildi:
+            print(f"\n🔍 '{ism}' bo'yicha topilgan natijalar:")
+            for user in topildi:
+                print(user)
+        else:
+            print(f"\n❌ '{ism}' ismli foydalanuvchi topilmadi.")
+
+    def o_chirish(self, user_id: int):
+        if user_id in self.foydalanuvchilar:
+            o_chirilgan = self.foydalanuvchilar.pop(user_id)
+            print(f"\n🗑️ ID {user_id} ({o_chirilgan.ism}) tizimdan o'chirildi.")
+        else:
+            print(f"\n❌ ID {user_id} topilmadi.")
+
+
+def menyu():
+    tizim = Tizim()
+
+    # Test uchun dastlabki ma'lumotlar
+    tizim.foydalanuvchi_qo_shish("Ali Valiyev", "ali@mail.com", 25)
+    tizim.foydalanuvchi_qo_shish("Zuhra Karimova", "zuhra@mail.com", 22)
+
+    while True:
+        print("\n--- BOSH QARUV MENYUSI ---")
+        print("1. Yangi foydalanuvchi qo'shish")
+        print("2. Barcha foydalanuvchilarni ko'rish")
+        print("3. Ism bo'yicha qidirish")
+        print("4. Foydalanuvchini o'chirish")
+        print("5. Chiqish")
+
+        tanlov = input("\nTanlovingizni kiriting (1-5): ").strip()
+
+        if tanlov == "1":
+            ism = input("Ism va familiya: ")
+            email = input("Email manzil: ")
+            try:
+                yosh = int(input("Yosh: "))
+                tizim.foydalanuvchi_qo_shish(ism, email, yosh)
+            except ValueError:
+                print("\n❌ Xatolik: Yosh faqat raqamlarda kiritilishi kerak!")
+
+        elif tanlov == "2":
+            tizim.barcha_foydalanuvchilar()
+
+        elif tanlov == "3":
+            ism = input("Qidirilayotgan ismni kiriting: ")
+            tizim.qidirish(ism)
+
+        elif tanlov == "4":
+            try:
+                user_id = int(input("O'chiriladigan foydalanuvchi ID sini kiriting: "))
+                tizim.o_chirish(user_id)
+            except ValueError:
+                print("\n❌ Xatolik: ID faqat raqam bo'lishi kerak!")
+
+        elif tanlov == "5":
+            print("\nDastur tugatildi. Xayr!")
+            sys.exit()
+
+        else:
+            print("\n⚠️ Noto'g'ri tanlov! Iltimos, 1 dan 5 gacha raqam kiriting.")
+
+
+if __name__ == "__main__":
+    menyu()
