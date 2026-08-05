@@ -1,0 +1,20 @@
+from datetime import datetime
+
+def yoshni_hisobla():
+    ism = input("Ismingizni kiriting: ")
+    
+    try:
+        tugilgan_yil = int(input("Tug'ilgan yilingizni kiriting (masalan, 2000): "))
+        joriy_yil = datetime.now().year
+        yosh = joriy_yil - tugilgan_yil
+        
+        if yosh < 0:
+            print("Xatolik: Tug'ilgan yil kelajakda bo'lishi mumkin emas!")
+        else:
+            print(f"Salom, {ism}! Siz {yosh} yoshdasiz.")
+            
+    except ValueError:
+        print("Xatolik: Iltimos, yilni faqat raqamlarda kiriting!")
+
+if __name__ == "__main__":
+    yoshni_hisobla()
