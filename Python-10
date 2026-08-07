@@ -1,0 +1,7 @@
+a = int(input("Birinchi sonni kiriting: "))
+b = int(input("Ikkinchi sonni kiriting: "))
+
+print("Yig'indisi:", a + b)
+print("Ayirmasi:", a - b)
+print("Ko'paytmasi:", a * b)
+print("Bo'linmasi:", a / b)
