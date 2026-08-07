@@ -1,0 +1,84 @@
+students = []
+
+while True:
+    print("\n===== TALABALAR BOSHQARUV TIZIMI =====")
+    print("1. Talaba qo'shish")
+    print("2. Talabalarni ko'rish")
+    print("3. Talaba qidirish")
+    print("4. O'rtacha bahoni hisoblash")
+    print("5. Talabani o'chirish")
+    print("6. Chiqish")
+
+    choice = input("Tanlang (1-6): ")
+
+    if choice == "1":
+        name = input("Talabaning ismi: ")
+        age = input("Yoshi: ")
+        grade = float(input("Bahosi: "))
+
+        student = {
+            "name": name,
+            "age": age,
+            "grade": grade
+        }
+
+        students.append(student)
+        print("✅ Talaba muvaffaqiyatli qo'shildi.")
+
+    elif choice == "2":
+        if len(students) == 0:
+            print("Ro'yxatda talaba yo'q.")
+        else:
+            print("\n--- Talabalar ro'yxati ---")
+            for i, student in enumerate(students, start=1):
+                print(f"{i}. {student['name']}")
+                print(f"   Yoshi: {student['age']}")
+                print(f"   Bahosi: {student['grade']}")
+                print("-" * 30)
+
+    elif choice == "3":
+        search = input("Qidirilayotgan ism: ")
+        found = False
+
+        for student in students:
+            if student["name"].lower() == search.lower():
+                print("\nTalaba topildi:")
+                print("Ismi:", student["name"])
+                print("Yoshi:", student["age"])
+                print("Bahosi:", student["grade"])
+                found = True
+
+        if not found:
+            print("Bunday talaba topilmadi.")
+
+    elif choice == "4":
+        if len(students) == 0:
+            print("Hisoblash uchun ma'lumot yo'q.")
+        else:
+            total = 0
+            for student in students:
+                total += student["grade"]
+
+            average = total / len(students)
+            print("O'rtacha baho:", round(average, 2))
+
+    elif choice == "5":
+        delete_name = input("O'chiriladigan talaba ismi: ")
+        deleted = False
+
+        for student in students:
+            if student["name"].lower() == delete_name.lower():
+                students.remove(student)
+                deleted = True
+                print("Talaba o'chirildi.")
+                break
+
+        if not deleted:
+            print("Bunday talaba topilmadi.")
+
+    elif choice == "6":
+        print("Dastur yakunlandi.")
+        break
+
+    else:
+        print("Noto'g'ri tanlov! Qayta urinib ko'ring.")
