@@ -1,0 +1,37 @@
+# 1. CHIQARISH (Ekran/konsolga ma'lumot chiqarish)
+print("Salom, Dunyo!")
+
+# 2. O'ZGARUVCHILAR (Ma'lumotlarni saqlash)
+# Pythonda tur (type) ko'rsatish shart emas, o'zi aniqlab oladi
+ism = "Ali"           # Matn (String)
+yosh = 20             # Butun son (Integer)
+boi = 1.75            # O'nlik son (Float)
+talabami = True       # Mantiqiy qiymat (Boolean)
+
+# 3. FOYDALANUVCHIDAN MA'LUMOT OLISH
+# input() har doim matn (string) ko'rinishida oladi
+foydalanuvchi_ismi = input("Ismingiz nima? ")
+print("Xush kelibsiz, " + foydalanuvchi_ismi + "!")
+
+# 4. SHART OPERATORLARI (if / elif / else)
+# Pythonda surilishlar (probellar/indentation) juda muhim!
+if yosh >= 18:
+    print(f"{ism} voyaga yetgan.")
+else:
+    print(f"{ism} hali voyaga yetmagan.")
+
+# 5. RO'YXATLAR (List)
+mevalar = ["Olma", "Banan", "Uzum"]
+print(mevalar[0])  # "Olma" (sanoq 0 dan boshlanadi)
+
+# 6. TSIKL (Loop - for)
+for meva in mevalar:
+    print(f"Menga {meva} yoqadi.")
+
+# 7. FUNKSIYALAR (def)
+def salom_ber(ism):
+    return f"Salom, {ism}! Bugun nimalarni o'rganamiz?"
+
+# Funksiyani chaqirish
+xabar = salom_ber("Vali")
+print(xabar)
