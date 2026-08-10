@@ -1,0 +1,25 @@
+import random
+
+def sonni_top_oiyini():
+    secret_number = random.randint(1, 100)
+    urinishlar = 0
+    
+    print("🤖 Men 1 dan 100 gacha bo'lgan bir son o'yladim. Uni topa olasizmi?")
+    
+    while True:
+        try:
+            taxmin = int(input("Taxminingizni kiriting: "))
+            urinishlar += 1
+            
+            if taxmin < secret_number:
+                print("Kattaroq son ayting! ⬆️")
+            elif taxmin > secret_number:
+                print("Kichikroq son ayting! ⬇️")
+            else:
+                print(f"🎉 Tabriklayman! Siz {urinishlar} ta urinishda topdingiz!")
+                break
+        except ValueError:
+            print("Iltimos, faqat butun son kiriting!")
+
+if __name__ == "__main__":
+    sonni_top_oiyini()
