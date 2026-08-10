@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonni Top O'yini</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <h1>🎮 Sonni Top!</h1>
+        <p class="description">Men 1 dan 100 gacha bo'lgan bir son o'yladim. Uni topa olasizmi?</p>
+
+        <div class="input-box">
+            <input type="number" id="guessInput" placeholder="Son kiriting..." min="1" max="100">
+            <button id="checkBtn" onclick="checkGuess()">Tekshirish</button>
+        </div>
+
+        <p id="message" class="message"></p>
+        <p class="attempts">Urinishlar soni: <span id="attemptsCount">0</span></p>
+
+        <button id="restartBtn" class="restart-btn" onclick="restartGame()" style="display: none;">Qaytadan boshlash 🔄</button>
+    </div>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        function checkGuess() {
+            const userGuess = parseInt(document.getElementById('guessInput').value);
+            const message = document.getElementById('message');
+            const attemptsCount = document.getElementById('attemptsCount');
+            const restartBtn = document.getElementById('restartBtn');
+
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                message.textContent = "⚠️ Iltimos, 1 dan 100 gacha bo'lgan son kiriting!";
+                message.style.color = "#e74c3c";
+                return;
+            }
+
+            attempts++;
+            attemptsCount.textContent = attempts;
+
+            if (userGuess === randomNumber) {
+                message.textContent = `🎉 Tabriklayman! Siz sonni ${attempts} ta urinishda topdingiz!`;
+                message.style.color = "#2ecc71";
+                restartBtn.style.display = "inline-block";
+            } else if (userGuess < randomNumber) {
+                message.textContent = "Kattaroq son ayting! ⬆️";
+                message.style.color = "#e67e22";
+            } else {
+                message.textContent = "Kichikroq son ayting! ⬇️";
+                message.style.color = "#e67e22";
+            }
+
+            document.getElementById('guessInput').value = '';
+        }
+
+        function restartGame() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('attemptsCount').textContent = attempts;
+            document.getElementById('message').textContent = '';
+            document.getElementById('restartBtn').style.display = 'none';
+            document.getElementById('guessInput').value = '';
+        }
+    </script>
+</body>
+</html>
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.description {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.input-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="number"] {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.30s;
+}
+
+input[type="number"]:focus {
+    border-color: #667eea;
+}
+
+button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.30s, transform 0.1s;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.message {
+    font-size: 16px;
+    font-weight: 600;
+    min-height: 24px;
+    margin-bottom: 15px;
+}
+
+.attempts {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.restart-btn {
+    background: #2ecc71;
+    width: 100%;
+}
+
+.restart-btn:hover {
+    background: #27ae60;
+}
