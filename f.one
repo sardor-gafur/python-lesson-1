@@ -1,0 +1,19 @@
+
+
+
+# O'quvchilar ro'yxatini saqlaydigan dastur
+oquvchilar = []
+
+def oquvchi_qo'sh(ism, yosh):
+    oquvchi = {"ism": ism, "yosh": yosh}
+    oquvchilar.append(oquvchi)
+    print(f"✅ {ism} ro'yxatga qo'shildi!")
+
+# 2 ta o'quvchi qo'shamiz
+oquvchi_qo'sh("Sardor", 18)
+oquvchi_qo'sh("Malika", 20)
+
+# Ro'yxatni ko'rsatamiz
+print("\n--- Barcha o'quvchilar ---")
+for i, o in enumerate(oquvchilar, 1):
+    print(f"{i}. {o['ism']} - {o['yosh']} yoshda")
