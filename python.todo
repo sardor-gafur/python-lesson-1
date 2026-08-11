@@ -1,0 +1,45 @@
+tasks = []
+
+while True:
+    print("\n===== TO-DO LIST =====")
+    print("1. Vazifa qo'shish")
+    print("2. Vazifalarni ko'rish")
+    print("3. Vazifani o'chirish")
+    print("4. Chiqish")
+
+    choice = input("Tanlang: ")
+
+    if choice == "1":
+        task = input("Vazifani yozing: ")
+        tasks.append(task)
+        print("✅ Vazifa qo'shildi!")
+
+    elif choice == "2":
+        if len(tasks) == 0:
+            print("📭 Hozircha vazifalar yo'q.")
+        else:
+            print("\nVazifalar:")
+            for i, task in enumerate(tasks, 1):
+                print(f"{i}. {task}")
+
+    elif choice == "3":
+        if len(tasks) == 0:
+            print("📭 O'chirish uchun vazifa yo'q.")
+        else:
+            for i, task in enumerate(tasks, 1):
+                print(f"{i}. {task}")
+
+            number = int(input("Qaysi vazifani o'chirasiz? "))
+
+            if 1 <= number <= len(tasks):
+                removed = tasks.pop(number - 1)
+                print(f"🗑️ '{removed}' o'chirildi!")
+            else:
+                print("❌ Noto'g'ri raqam!")
+
+    elif choice == "4":
+        print("Dastur tugadi 👋")
+        break
+
+    else:
+        print("❌ Noto'g'ri tanlov!")
