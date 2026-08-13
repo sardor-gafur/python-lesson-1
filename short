@@ -1,0 +1,4 @@
+name = input("Ismingiz nima? ")
+
+print("Salom,", name)
+print("Python o‘rganishga xush kelibsiz!")
