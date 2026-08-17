@@ -1,0 +1,19 @@
+#try: bilan boshlanadi yani buni manosi tryni banadidigaglarni ishlat agar ishlamasa bundan keyingi davomchisi exceptga otadi.
+
+try:
+    xx = int(input("what is your height "))
+    print(f"thank you {xx} is so good ")
+except ValueError:
+    print ("enter number only")
+
+
+
+
+while True:
+    try:
+        height = int(input("What is your height? "))
+        print(f"Thank you! Your height is {height}.")
+        break
+
+    except ValueError:
+        print("Enter a number only!")
