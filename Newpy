@@ -1,0 +1,84 @@
+import random
+
+
+def son_top_odam(x=10):
+    """Kompyuter o'ylagan sonni foydalanuvchi topadi."""
+    tasodifiy_son = random.randint(1, x)
+    taxminlar = 0
+    print(f"\n1 dan {x} gacha son o'yladim. Topishga harakat qiling!")
+
+    while True:
+        taxminlar += 1
+        taxmin = int(input("Taxmingizni kiriting: "))
+
+        if taxmin < tasodifiy_son:
+            print("Kattaroq son ayting ⬆️")
+        elif taxmin > tasodifiy_son:
+            print("Kichikroq son ayting ⬇️")
+        else:
+            print(
+                f"🎉 Tabriklayman! {taxminlar} ta urinishda topdingiz!"
+            )
+            break
+    return taxminlar
+
+
+def son_top_kompyuter(x=10):
+    """Foydalanuvchi o'ylagan sonni kompyuter topadi."""
+    input(
+        f"\n1 dan {x} gacha biror son o'ylang va Enter tugmasini bosing..."
+    )
+    quyi = 1
+    yuqori = x
+    taxminlar = 0
+
+    while quyi <= yuqori:
+        taxminlar += 1
+        taxmin = random.randint(quyi, yuqori)
+
+        javob = (
+            input(
+                f"Siz {taxmin} sonini o'yladingiz: to'g'ri (T), "
+                f"mening sonim kattaroq (+), yoki kichikroq (-)? "
+            )
+            .strip()
+            .lower()
+        )
+
+        if javob == "+":
+            quyi = taxmin + 1
+        elif javob == "-":
+            yuqori = taxmin - 1
+        elif javob == "t":
+            print(
+                f"🤖 Kompyuter {taxminlar} ta urinishda topdi!"
+            )
+            break
+        else:
+            print("Iltimos, faqat '+', '-' yoki 'T' harfini kiriting.")
+    return taxminlar
+
+
+def play():
+    """O'yinni boshqaruvchi asosiy funksiya."""
+    print("=== SON TOPISH O'YINIGA XUSH KELIBSIZ ===")
+
+    user_attempts = son_top_odam(10)
+    pc_attempts = son_top_kompyuter(10)
+
+    print("\n--- NATIJALAR ---")
+    if user_attempts < pc_attempts:
+        print(
+            f"Siz yutdingiz! (Siz: {user_attempts} ta, Kompyuter: {pc_attempts} ta)"
+        )
+    elif user_attempts > pc_attempts:
+        print(
+            f"Kompyuter yutdi! (Siz: {user_attempts} ta, Kompyuter: {pc_attempts} ta)"
+        )
+    else:
+        print(f"Durang! Har ikkisi ham {user_attempts} ta urinish ishlatdi.")
+
+
+# Dasturni ishga tushirish
+if __name__ == "__main__":
+    play()
