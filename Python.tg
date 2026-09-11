@@ -1,0 +1,88 @@
+import logging
+from telegram import Update
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes,
+    MessageHandler,
+    filters,
+)
+
+# Konsolda xatoliklarni kuzatib borish uchun log parametrlarini sozlaymiz
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
+
+# Valyuta kursi (shartli ravishda 1 USD = 12 800 UZS)
+USD_TO_UZS = 12800
+
+
+# /start buyrug'i berilganda ishlaydigan funksiya
+async def start(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    user = update.effective_user
+    await update.message.reply_text(
+        f"Salom, {user.first_name}! 👋\n\n"
+        f"Men Valyuta Hisoblagich Botman.\n"
+        f"Menga istalgan dollar miqdorini raqamda yuboring (masalan: 50 yoki 100), "
+        f"men uni so'mga hisoblab beraman!"
+    )
+
+
+# /help buyrug'i berilganda ishlaydigan funksiya
+async def help_command(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    await update.message.reply_text(
+        "📌 Botdan foydalanish:\n"
+        "- Shunchaki raqam yuboring (masalan: 15) -> so'mga o'giradi.\n"
+        "- /start -> Botni qayta ishga tushirish."
+    )
+
+
+# Matnli xabarlarga javob berish va hisob-kitob qilish funksiyasi
+async def calculate(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
+    text = update.message.text.strip()
+
+    # Yuborilgan xabar raqam ekanligini tekshiramiz
+    try:
+        amount_usd = float(text)
+        total_uzs = amount_usd * USD_TO_UZS
+
+        await update.message.reply_text(
+            f"💵 **{amount_usd:,.2f} USD** = **{total_uzs:,.2f} UZS**\n\n"
+            f"(Hozirgi kurs: 1 USD = {USD_TO_UZS:,} UZS)"
+        )
+    except ValueError:
+        await update.message.reply_text(
+            "⚠️ Iltimos, faqat musbat raqam kiriting (masalan: 25 yoki 100.5)."
+        )
+
+
+def main():
+    # BotFather'dan olingan TOKEN ni shu yerga qo'ying
+    TOKEN = "YOUR_TELEGRAM_BOT_TOKEN_HERE"
+
+    # Telegram bot dasturini yaratish
+    app = ApplicationBuilder().token(TOKEN).build()
+
+    # Buyruqlarni biriktirish
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("help", help_command))
+
+    # Matnli xabarlar uchun handler (buyruqlardan tashqari)
+    app.add_handler(
+        MessageHandler(filters.TEXT & ~filters.COMMAND, calculate)
+    )
+
+    print("🤖 Bot ishga tushdi...")
+    # Botni ishlatish (doimiy ravishda yangi xabarlarni kutadi)
+    app.run_polling()
+
+
+if __name__ == "__main__":
+    main()
