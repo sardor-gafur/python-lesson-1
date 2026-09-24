@@ -1,0 +1,16 @@
+import random
+
+secret = random.randint(1, 100)
+
+print("1 dan 100 gacha son o'yladim!")
+
+while True:
+    guess = int(input("Sonni toping: "))
+
+    if guess < secret:
+        print("Kattaroq son kiriting.")
+    elif guess > secret:
+        print("Kichikroq son kiriting.")
+    else:
+        print("🎉 To'g'ri topdingiz!")
+        break
