@@ -1,0 +1,19 @@
+import random
+
+secret = random.randint(1, 100)
+attempts = 0
+
+print("🎮 Sonni topish o'yini!")
+print("Men 1 dan 100 gacha son o'yladim.")
+
+while True:
+    guess = int(input("Sonni kiriting: "))
+    attempts += 1
+
+    if guess < secret:
+        print("Kattaroq son kiriting! ⬆️")
+    elif guess > secret:
+        print("Kichikroq son kiriting! ⬇️")
+    else:
+        print(f"🎉 Topdingiz! Urinishlar: {attempts}")
+        break
